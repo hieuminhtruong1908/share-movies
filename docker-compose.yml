@@ -1,0 +1,50 @@
+version: "3.3"
+
+services:
+  nginx:
+    build:
+      context: docker/nginx
+      dockerfile: Dockerfile
+      args:
+        - HOST=${HOST}
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+    env_file:
+      - .env
+
+  app:
+    depends_on:
+      - db
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    volumes:
+      - .:/app
+      - bundle_data:/bundle
+    command: sh /scripts/command.sh
+    stdin_open: true
+    tty: true
+
+  db:
+    image: mysql:5.7
+    restart: on-failure
+    env_file:
+      - .env
+    ports:
+        - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DATABASE_NAME}
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+  bundle_data:

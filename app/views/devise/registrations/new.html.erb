@@ -1,0 +1,62 @@
+<div class="w-100 mt-5 container-fluid">
+  <h2 class="text-center">Sign up</h2>
+  <div class="w-100 mt-3 d-flex-center flex-column">
+    <div class="w-60">
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), class: 'd-flex-center flex-column') do |f| %>
+        <div class="field d-flex mt-3 flex-wrap">
+          <div class="w-30">
+            <%= f.label :email %><br/>
+          </div>
+          <div class="w-70">
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'w-100' %>
+          </div>
+          <div class="w-100 text-danger">
+            <% if resource.errors.any? %>
+              <%= 'Email ' + resource.errors[:email].first if resource.errors[:email].present? %>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="field d-flex mt-3 flex-wrap">
+          <div class="w-30">
+            <%= f.label :password %>
+            <div>
+              <% if @minimum_password_length %>
+                <em>(<%= @minimum_password_length %> characters minimum)</em>
+              <% end %>
+            </div>
+          </div>
+          <div class="w-70">
+            <%= f.password_field :password, autocomplete: "new-password", class: 'w-100' %>
+          </div>
+
+          <div class="w-100 text-danger">
+            <% if resource.errors.any? %>
+              <%= 'Password ' + resource.errors[:password].first if resource.errors[:password].present? %>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="field d-flex mt-3 flex-wrap">
+          <div class="w-30">
+            <%= f.label :password_confirmation %><br/>
+          </div>
+          <div class="w-70">
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'w-100' %>
+          </div>
+          <div class="w-100 text-danger">
+            <% if resource.errors.any? %>
+              <%= 'Password confirmation ' + resource.errors[:password_confirmation].first if resource.errors[:password_confirmation].present? %>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="actions mt-3 w-100 text-center">
+          <%= f.submit "Sign up" %>
+        </div>
+      <% end %>
+
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>
