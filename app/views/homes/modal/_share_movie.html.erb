@@ -1,0 +1,40 @@
+<div class="modal fade" id="share-movie" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Share a Youtube movie</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <%= form_with model: Movie.new, url: movies_share_path, class: 'videoUrlForm' do |form| %>
+            <div class="d-flex-center flex-wrap">
+              <div class="w-30">
+                <%= form.label :video_url, "Youtube URL" %>
+              </div>
+              <div class="w-70">
+                <%= form.text_field :video_url, class: 'w-100 videoUrl' %>
+              </div>
+              <div class="w-30">
+              </div>
+              <div class="w-70">
+                <span class="text-danger d-none videoUrlError">
+                </span>
+              </div>
+
+            </div>
+            <div class="d-flex-center mt-4">
+              <div class="w-30">
+              </div>
+              <div class="w-70">
+                <button class="w-100 btn btn-primary btn-submit-share" type="button">Share</button>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

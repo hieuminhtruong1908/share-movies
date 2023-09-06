@@ -1,0 +1,15 @@
+<div class="d-flex mt-3">
+  <div class="w-50 d-flex-center">
+    <iframe
+      width="560"
+      height="315"
+      src="<%= "https://www.youtube-nocookie.com/embed/#{ApplicationController.helpers.youtube_parser(movie.video_url)}" %>"
+      frameborder="0"
+      allowfullscreen
+    ></iframe>
+  </div>
+  <div class="w-50 d-flex justify-content">
+    <div>Movie Title</div>
+    <div>Shared by: <%= movie.user.email %></div>
+  </div>
+</div>

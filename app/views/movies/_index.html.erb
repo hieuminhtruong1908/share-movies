@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="w-100 list-movies">
+    <% if @list_movies_of_users.present? &&  @list_movies_of_users.size > 0 %>
+      <% @list_movies_of_users.each do |movie| %>
+        <% cache movie do %>
+          <%= render partial: 'movies/show', locals: { movie: movie } %>
+        <% end %>
+      <% end %>
+    <% else %>
+      Not Video Available
+    <% end %>
+  </div>
+</div>
