@@ -11,7 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_09_06_083442) do
-  create_table "movies", charset: "utf8mb4", force: :cascade do |t|
+  create_table "movies", charset: "latin1", force: :cascade do |t|
     t.integer "user_id"
     t.string "video_url"
     t.datetime "created_at", null: false
