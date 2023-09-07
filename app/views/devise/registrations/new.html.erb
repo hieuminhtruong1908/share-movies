@@ -12,7 +12,7 @@
           </div>
           <div class="w-100 text-danger">
             <% if resource.errors.any? %>
-              <%= 'Email ' + resource.errors[:email].first if resource.errors[:email].present? %>
+              <%= 'Email ' + resource.errors[:email].first.html_safe if resource.errors[:email].present? %>
             <% end %>
           </div>
         </div>
