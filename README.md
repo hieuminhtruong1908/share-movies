@@ -1,6 +1,7 @@
 In the root directory
-- Run docker compose up
-Run spec:
+#Run app
+- docker compose up -d
+#Run spec:
 - docker compose run app rspec --format documentation
-Run rubocop:
+#Run rubocop:
 - docker compose run app rubocop 
