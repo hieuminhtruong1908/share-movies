@@ -1,7 +1,9 @@
 class HomesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index]
   def index
-    @list_movies_of_users = Movie.list_movies_of_users
+    page = (params[:page].presence || 1)
+    limit = (params[:limit].presence || 5)
+    @list_movies_of_users = Movie.list_movies_of_users.page(page).per(limit)
   end
 
   def share

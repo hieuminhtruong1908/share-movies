@@ -85,3 +85,4 @@ gem 'sassc-rails'
 gem 'dotenv-rails'
 gem 'mysql2'
 gem "devise", "~> 4.9"
+gem 'kaminari'

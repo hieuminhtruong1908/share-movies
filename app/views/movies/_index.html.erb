@@ -6,6 +6,9 @@
           <%= render partial: 'movies/show', locals: { movie: movie } %>
         <% end %>
       <% end %>
+      <div class="mt-5 mb-5 w-100 d-flex-center">
+        <%= paginate @list_movies_of_users %>
+      </div>
     <% else %>
       Not Video Available
     <% end %>
