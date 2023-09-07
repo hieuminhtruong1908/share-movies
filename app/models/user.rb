@@ -4,6 +4,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :movies, foreign_key: 'user_id'
+  has_many :movies, foreign_key: 'user_id', dependent: :destroy, inverse_of: :user
   accepts_nested_attributes_for :movies
 end

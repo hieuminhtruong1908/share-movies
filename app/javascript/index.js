@@ -7,6 +7,10 @@ const shareMovies = {
             $('#share-movie').modal('show');
         })
 
+        $(document).on('click', '#alert-share-success .btn-close-share', function (e) {
+            window.location.reload();
+        })
+
         $(document).on('click', '#share-movie .btn-submit-share', async function (e) {
             let form = $('#share-movie .videoUrlForm');
             let url = form.attr('action');
@@ -14,7 +18,6 @@ const shareMovies = {
             let videoUrl = form.find('.videoUrl').val();
             let msgError;
             let error = false;
-            console.log(3333, shareMovies.validateYouTubeUrl(videoUrl));
             if (!videoUrl) {
                 error = true;
                 msgError = 'Vui lòng nhập Youtube URL';
@@ -37,7 +40,9 @@ const shareMovies = {
 
                 let res = await shareMovies.callApi(constant.POST_METHOD, url, data);
                 if(res.status == 'success') {
-                    alert('success')
+                    shareMovies.setLoading(false);
+                    $('#share-movie').modal('hide');
+                    $('#alert-share-success').modal('show');
                 }
             }
         })

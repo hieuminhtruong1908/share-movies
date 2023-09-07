@@ -3,9 +3,9 @@ class HomesController < ApplicationController
   def index
     @list_movies_of_users = Movie.list_movies_of_users
   end
-  
+
   def share
-    return render json: { status: 'failed', error: 'You do not have access' }, status: 500 unless current_user.present?
+    return render json: { status: 'failed', error: 'You do not have access' }, status: 500 if current_user.blank?
 
     movies = Movie.new(share_movies_params.merge!(user: current_user))
     if movies.save
