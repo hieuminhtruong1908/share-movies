@@ -1,7 +1,7 @@
 class Movie < ApplicationRecord
-  belongs_to :user, optional: true, touch: true, inverse_of: :movies
-
   YOUTUBE_URL_REGEX = %r{\A.*((youtu.be/)|(v/)|(/u/\w/)|(embed/)|(watch\?))\??v?=?([^#&?]*).*\z}
+
+  belongs_to :user, optional: true, touch: true, inverse_of: :movies
 
   validates :user_id, presence: true
 

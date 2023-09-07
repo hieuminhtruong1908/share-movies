@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:user) { build(:user) } # Sử dụng Factory Bot để tạo một đối tượng User
+  let(:user) { build(:user) }
 
   it 'is valid with valid attributes' do
     expect(user).to be_valid
@@ -72,7 +72,7 @@ RSpec.describe User, type: :model do
     expect(user).not_to be_valid
   end
 
-  it 'is not valid without a password confirmation not equal pasword' do
+  it 'is not valid without a password confirmation not equal password' do
     user.password = '123456'
     user.password_confirmation = '654321'
     expect(user.invalid?).to eq(true)
