@@ -86,3 +86,5 @@ gem 'dotenv-rails'
 gem 'mysql2'
 gem "devise", "~> 4.9"
 gem 'kaminari'
+gem 'sidekiq', '< 7'
+gem 'redis-rails'

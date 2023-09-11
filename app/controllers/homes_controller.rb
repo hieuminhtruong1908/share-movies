@@ -4,6 +4,7 @@ class HomesController < ApplicationController
     page = (params[:page].presence || 1)
     limit = (params[:limit].presence || 5)
     @list_movies_of_users = Movie.list_movies_of_users.page(page).per(limit)
+    TestJob.perform_later
   end
 
   def share

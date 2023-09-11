@@ -18,6 +18,7 @@ services:
   app:
     depends_on:
       - db
+      - redis
     env_file:
       - .env
     ports:
@@ -31,6 +32,31 @@ services:
     command: sh /scripts/command.sh
     stdin_open: true
     tty: true
+
+  sidekiq:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    volumes:
+      - .:/app
+    environment:
+      RAILS_ENV: ${RAILS_ENV}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_URL: redis://${REDIS_HOST}:${REDIS_PORT}/0
+    command: bash -c 'bundle install && bundle exec sidekiq -C config/sidekiq.yml'
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:4.0-alpine
+    command: redis-server
+    volumes:
+      - ./redis-data:/var/lib/redis/data
+    ports:
+      - ${REDIS_PORT}
+    logging:
+      driver: none
 
   db:
     image: mysql:5.7
