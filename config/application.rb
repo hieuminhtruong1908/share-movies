@@ -18,5 +18,13 @@ module ShareMovies
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+
+    config.lograge.enabled = true
+    config.lograge.formatter = Lograge::Formatters::Logstash.new
+    config.lograge.logger = ActiveSupport::Logger.new(STDOUT)
+    config.lograge.custom_options = lambda do |event|
+      { time: Time.now }
+    end
   end
 end
