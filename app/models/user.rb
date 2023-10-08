@@ -6,4 +6,5 @@ class User < ApplicationRecord
 
   has_many :movies, foreign_key: 'user_id', dependent: :destroy, inverse_of: :user
   accepts_nested_attributes_for :movies
+  searchkick
 end

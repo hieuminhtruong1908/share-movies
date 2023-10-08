@@ -19,10 +19,11 @@ services:
     depends_on:
       - db
       - redis
+      - elasticsearch
     env_file:
       - .env
     ports:
-      - "3000:3000"
+      - "3001:3000"
     build:
       context: .
       dockerfile: docker/app/Dockerfile
@@ -32,6 +33,7 @@ services:
     command: sh /scripts/command.sh
     stdin_open: true
     tty: true
+    container_name: app
 
   sidekiq:
     build:
@@ -47,6 +49,7 @@ services:
     command: bash -c 'bundle install && bundle exec sidekiq -C config/sidekiq.yml'
     depends_on:
       - redis
+    container_name: sidekiq
 
   redis:
     image: redis:4.0-alpine
@@ -54,9 +57,10 @@ services:
     volumes:
       - ./redis-data:/var/lib/redis/data
     ports:
-      - ${REDIS_PORT}
+      - '6379:6379'
     logging:
       driver: none
+    container_name: redis
 
   db:
     image: mysql:5.7
@@ -70,7 +74,32 @@ services:
       - MYSQL_DATABASE=${DATABASE_NAME}
     volumes:
       - mysql_data:/var/lib/mysql
+    container_name: db
+
+  
+
+  elasticsearch:
+    image: elasticsearch:6.8.10
+    environment:
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./esdata:/usr/share/elasticsearch/data
+    container_name: elasticsearch
+
+  # db:
+  #   image: postgres
+  #   environment:
+  #     POSTGRES_USER: medme
+  #     POSTGRES_PASSWORD: password
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
 
 volumes:
   mysql_data:
   bundle_data:
+  esdata:
