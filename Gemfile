@@ -90,4 +90,8 @@ gem 'sidekiq', '< 7'
 gem 'redis-rails'
 
 gem "searchkick"
-gem "elasticsearch"
+gem 'elasticsearch', '~> 7.0'
+gem "lograge"
+gem "logstash-event"
+gem 'logstash-logger'
+gem 'request_store'

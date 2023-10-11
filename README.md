@@ -29,9 +29,8 @@ app# mysql -h db -u root -p share_movies < db/dump/test.sql
 # Run
 docker compose up
 # Debug (for byebug)
-docker attach kindercare-web-1
-docker attach kindercare-sidekiq-1
+docker attach app
+docker attach sidekiq
 # Reindex
-docker compose run web bundle exec rake searchkick:reindex:all
-docker compose run web bundle exec rake admin_tool:reindex_skip_error # for qa database
-```
+docker compose run app bundle exec rake searchkick:reindex:all
+

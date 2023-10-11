@@ -20,10 +20,8 @@ services:
       - db
       - redis
       - elasticsearch
-    env_file:
-      - .env
     ports:
-      - "3001:3000"
+      - "3000:3000"
     build:
       context: .
       dockerfile: docker/app/Dockerfile
@@ -34,6 +32,8 @@ services:
     stdin_open: true
     tty: true
     container_name: app
+    environment:
+      - ELASTICSEARCH_URL=${ELASTICSEARCH_URL}
 
   sidekiq:
     build:
@@ -57,7 +57,7 @@ services:
     volumes:
       - ./redis-data:/var/lib/redis/data
     ports:
-      - '6379:6379'
+      - "6379:6379"
     logging:
       driver: none
     container_name: redis
@@ -68,7 +68,7 @@ services:
     env_file:
       - .env
     ports:
-        - "3307:3306"
+      - "3307:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
       - MYSQL_DATABASE=${DATABASE_NAME}
@@ -76,18 +76,48 @@ services:
       - mysql_data:/var/lib/mysql
     container_name: db
 
-  
-
   elasticsearch:
-    image: elasticsearch:6.8.10
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+    container_name: elasticsearch
     environment:
       - xpack.security.enabled=false
-      - "discovery.type=single-node"
-    ports:
-      - "9200:9200"
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    cap_add:
+      - IPC_LOCK
     volumes:
-      - ./esdata:/usr/share/elasticsearch/data
-    container_name: elasticsearch
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:7.4.0
+    environment:
+      - ELASTICSEARCH_HOSTS=${ELASTICSEARCH_URL}
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+
+  logstash:
+    command: logstash -f /etc/logstash/conf.d/logstash.conf
+    image: docker.elastic.co/logstash/logstash:7.17.13
+    ports:
+      - "5228:5228/udp"
+    depends_on:
+      - elasticsearch
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    volumes:
+      - ./logstash/pipeline/logstash.conf:/etc/logstash/conf.d/logstash.conf:ro
 
   # db:
   #   image: postgres
