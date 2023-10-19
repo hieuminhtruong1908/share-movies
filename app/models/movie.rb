@@ -2,6 +2,9 @@ class Movie < ApplicationRecord
   YOUTUBE_URL_REGEX = %r{\A.*((youtu.be/)|(v/)|(/u/\w/)|(embed/)|(watch\?))\??v?=?([^#&?]*).*\z}
 
   belongs_to :user, optional: true, touch: true, inverse_of: :movies
+  has_many :pictures, dependent: :destroy
+  has_many :products, through: :pictures, source: :owner, source_type: 'Product'
+  has_many :employees, through: :pictures, source: :owner, source_type: 'Employee'
 
   validates :user_id, presence: true
 

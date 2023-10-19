@@ -18,7 +18,8 @@ RUN apt-get update && \
     zlib1g-dev \
     liblzma-dev \
     libmariadb-dev \
-    libsqlite3-dev
+    libsqlite3-dev \
+    imagemagick
     
 RUN curl -sL https://deb.nodesource.com/setup_12.x  | bash -
 RUN apt-get -y install nodejs

@@ -7,4 +7,11 @@ class User < ApplicationRecord
   has_many :movies, foreign_key: 'user_id', dependent: :destroy, inverse_of: :user
   accepts_nested_attributes_for :movies
   searchkick
+
+  has_one_attached :image
+
+  enum type: {
+    Patient: 0,
+    Admin: 1
+  }
 end

@@ -1,0 +1,29 @@
+<%= form_with model: @product, local: true, method: :post, url: "/product/update" do |form| %>
+  <%= form.file_field :avatars, multiple: true %><br>
+  <% @product.avatars.each do |image| %>
+    <div>
+      <%= form.hidden_field :avatars, multiple: true, value: image.signed_id, class: 'attachment-existed' %>
+      <% if image.representable? %>
+        <%= image_tag image.representation(resize_to_limit: [100, 100]) %>
+      <% else %>
+        <%= link_to rails_blob_path(image, disposition: "attachment") do %>
+          <%= image.filename.to_s %>
+        <% end %>
+      <% end %>
+      <button class='remove-attachment'>Remove</button>
+    </div>
+  <% end %>
+  <%= form.hidden_field :id, value: @product.id %>
+  <%= form.submit %>
+<% end %>
+<div>
+  <i class="fa fa-h-square" aria-hidden="true"></i>
+</div>
+<script type="module">
+  import 'jquery'
+  $(function () {
+    $(document).on('click', '.remove-attachment', function (e) {
+      $(this).parent().remove();
+    });
+  })
+</script>

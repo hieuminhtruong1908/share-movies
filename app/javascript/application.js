@@ -4,3 +4,5 @@ import "controllers"
 import 'jquery'
 import 'bootstrap'
 import './index'
+import * as ActiveStorage from "@rails/activestorage"
+ActiveStorage.start()

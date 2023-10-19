@@ -95,3 +95,6 @@ gem "lograge"
 gem "logstash-event"
 gem 'logstash-logger'
 gem 'request_store'
+gem "image_processing", "~> 1.0"
+gem "aws-sdk-s3", require: false
+gem 'htmlbeautifier', '~> 1.3', '>= 1.3.1'
